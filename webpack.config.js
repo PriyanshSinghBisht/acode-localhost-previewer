@@ -1,5 +1,6 @@
 const { exec } = require('child_process');
 const path = require('path');
+const copy = require('copy-webpack-plugin')
 
 module.exports = (env, options) => {
   const { mode = 'development' } = options;
@@ -16,6 +17,7 @@ module.exports = (env, options) => {
         },
       ],
     },
+    { test: /\.css$/, use: "raw-loader"}
   ];
 
   const main = {
@@ -45,7 +47,18 @@ module.exports = (env, options) => {
             });
           });
         }
-      }
+      },
+        new copy({
+                   patterns: [
+                            {
+                        from: 'assets',
+                        to: 'assets',
+                                 },{
+                             from: 'demo.gif',
+                             to: 'demo.gif'
+                                 }
+                            ],
+        }),
     ],
   };
 
